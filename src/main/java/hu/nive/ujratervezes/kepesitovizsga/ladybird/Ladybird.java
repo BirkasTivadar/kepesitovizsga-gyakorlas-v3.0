@@ -1,14 +1,11 @@
 package hu.nive.ujratervezes.kepesitovizsga.ladybird;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Ladybird {
-
 
     private DataSource datasource;
 
@@ -18,7 +15,7 @@ public class Ladybird {
 
     public List<String> getLadybirdsWithExactNumberOfPoints(int number) {
 
-        List<String> result = new ArrayList<>();
+        List<String> result;
 
         try (
                 Connection conn = datasource.getConnection();
@@ -59,7 +56,9 @@ public class Ladybird {
     }
 
     private List<Integer> loadList() {
-        List<Integer> result = new ArrayList<>();
+
+        List<Integer> result;
+
         try (
                 Connection conn = datasource.getConnection();
                 PreparedStatement ps = conn.prepareStatement("SELECT number_of_points FROM ladybirds WHERE number_of_points > 0 ORDER BY number_of_points;")
@@ -74,12 +73,16 @@ public class Ladybird {
     }
 
     private List<Integer> getPoints(PreparedStatement ps) {
+
         List<Integer> result = new ArrayList<>();
+
         try (ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Integer points = rs.getInt("number_of_points");
                 result.add(points);
             }
+
         } catch (SQLException sqlException) {
             throw new IllegalStateException("Cannot query", sqlException);
         }
@@ -87,12 +90,16 @@ public class Ladybird {
     }
 
     public Set<Ladybug> getLadybirdByPartOfLatinNameAndNumberOfPoints(String partOfName, int numberOfPoints) {
+
         String sqlOrder = "SELECT * FROM ladybirds WHERE latin_name LIKE '%" + partOfName + "%' AND number_of_points = ?;";
+
         Set<Ladybug> result;
+
         try (
                 Connection conn = datasource.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sqlOrder)
         ) {
+
             ps.setInt(1, numberOfPoints);
 
             result = getLadyBugs(ps);
@@ -104,7 +111,9 @@ public class Ladybird {
     }
 
     private Set<Ladybug> getLadyBugs(PreparedStatement ps) {
+
         Set<Ladybug> result = new HashSet<>();
+
         try (ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -123,12 +132,15 @@ public class Ladybird {
     }
 
     public Map<String, Integer> getLadybirdStatistics() {
+
         Map<String, Integer> result = new HashMap<>();
+
         try (
                 Connection conn = datasource.getConnection();
                 Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT genus, COUNT(genus) AS amount FROM ladybirds GROUP BY genus;\n");
+                ResultSet rs = stmt.executeQuery("SELECT genus, COUNT(genus) AS amount FROM ladybirds GROUP BY genus;\n")
         ) {
+
             while (rs.next()) {
                 String genus = rs.getString("genus");
                 int amount = rs.getInt("amount");
