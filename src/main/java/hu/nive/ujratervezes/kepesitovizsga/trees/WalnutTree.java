@@ -1,6 +1,11 @@
 package hu.nive.ujratervezes.kepesitovizsga.trees;
 
 public class WalnutTree extends Tree {
+
+    private static final int GROW_LEAVES_BY_SUNNY_DAY = 30;
+
+    private static final int WEIGHT_OF_FRUIT_PER_LEAVES = 10;
+
     public WalnutTree(int leaves) {
         super(leaves);
         setFruit(Fruit.WALNUT);
@@ -8,18 +13,18 @@ public class WalnutTree extends Tree {
 
     @Override
     public int growLeaves(int numberOfSunnyDays) {
-        setLeaves(getLeaves() + numberOfSunnyDays * 30);
+        setLeaves(getLeaves() + numberOfSunnyDays * GROW_LEAVES_BY_SUNNY_DAY);
         return getLeaves();
     }
 
     @Override
     public void ripenFruit(int numberOfSunnyDays) {
         growLeaves(numberOfSunnyDays);
-        setWeightOfFruit(getLeaves() / 10);
+        setWeightOfFruit(getLeaves() / WEIGHT_OF_FRUIT_PER_LEAVES);
     }
 
     @Override
     public int hostBirdNest() {
-        return getLeaves() / 200;
+        return getLeaves() / BIRD_NEST_PER_LEAVES;
     }
 }
