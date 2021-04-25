@@ -2,7 +2,7 @@ package hu.nive.ujratervezes.kepesitovizsga.trees;
 
 public abstract class Tree {
 
-    static final int BIRD_NEST_PER_LEAVES = 200;
+    protected static final int BIRD_NEST_PER_LEAVES = 200;
 
     private int leaves;
 
