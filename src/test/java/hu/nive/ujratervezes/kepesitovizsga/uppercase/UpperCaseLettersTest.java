@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UpperCaseLettersTest {
 
     @Test
-    public void testGetNumberOfUpperCase() {
+    void testGetNumberOfUpperCase() {
         assertEquals(8, new UpperCaseLetters().getNumberOfUpperCase("characters.txt"));
     }
 
