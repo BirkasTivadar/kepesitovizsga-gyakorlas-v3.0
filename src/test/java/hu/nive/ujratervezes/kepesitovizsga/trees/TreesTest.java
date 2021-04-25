@@ -8,7 +8,7 @@ class TreesTest {
     private Tree tree;
 
     @Test
-    public void testAppleTree() {
+    void testAppleTree() {
         tree = new AppleTree(100);
 
         assertEquals(Fruit.APPLE, tree.getFruit());
@@ -22,7 +22,7 @@ class TreesTest {
     }
 
     @Test
-    public void testCherryTree() {
+    void testCherryTree() {
         tree = new CherryTree(200);
 
         assertEquals(Fruit.CHERRY, tree.getFruit());
@@ -36,7 +36,7 @@ class TreesTest {
     }
 
     @Test
-    public void testWalnutTree() {
+    void testWalnutTree() {
         tree = new WalnutTree(300);
 
         assertEquals(Fruit.WALNUT, tree.getFruit());
