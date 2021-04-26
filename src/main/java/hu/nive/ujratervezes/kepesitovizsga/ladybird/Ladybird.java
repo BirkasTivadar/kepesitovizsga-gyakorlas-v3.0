@@ -57,26 +57,13 @@ public class Ladybird {
 
     private List<Integer> loadList() {
 
-        List<Integer> result;
+        List<Integer> result = new ArrayList<>();
 
         try (
                 Connection conn = datasource.getConnection();
-                PreparedStatement ps = conn.prepareStatement("SELECT number_of_points FROM ladybirds WHERE number_of_points > 0 ORDER BY number_of_points;")
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT number_of_points FROM ladybirds WHERE number_of_points > 0 ORDER BY number_of_points;")
         ) {
-
-            result = getPoints(ps);
-
-        } catch (SQLException sqlException) {
-            throw new IllegalStateException("Connection failed", sqlException);
-        }
-        return result;
-    }
-
-    private List<Integer> getPoints(PreparedStatement ps) {
-
-        List<Integer> result = new ArrayList<>();
-
-        try (ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Integer points = rs.getInt("number_of_points");
@@ -84,7 +71,7 @@ public class Ladybird {
             }
 
         } catch (SQLException sqlException) {
-            throw new IllegalStateException("Cannot query", sqlException);
+            throw new IllegalStateException("Connection failed", sqlException);
         }
         return result;
     }
@@ -138,7 +125,7 @@ public class Ladybird {
         try (
                 Connection conn = datasource.getConnection();
                 Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT genus, COUNT(genus) AS amount FROM ladybirds GROUP BY genus;\n")
+                ResultSet rs = stmt.executeQuery("SELECT genus, COUNT(genus) AS amount FROM ladybirds GROUP BY genus;")
         ) {
 
             while (rs.next()) {
